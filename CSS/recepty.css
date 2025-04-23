@@ -1,0 +1,118 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin: 20px 0;
+    color: #333;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card h3 {
+    font-size: 1.5em;
+    color: #555;
+    margin: 10px 0;
+}
+
+.card p {
+    padding: 0 10px 20px;
+    color: #777;
+}
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 300px;
+    background: white;
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card h3 {
+    font-size: 20px;
+    margin: 10px 0;
+    color: #555;
+    text-align: center;
+}
+
+.card p {
+    font-size: 14px;
+    color: #666;
+    padding: 0 15px 15px;
+    text-align: justify;
+}
+.header {
+    background-color: #fff; /* Белый фон */
+    padding: 15px 0;
+    text-align: center;
+}
+
+.site-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: black; /* Черный цвет шрифта */
+}
+
+.menu a {
+    color: black; /* Черный цвет ссылок */
+    text-decoration: none;
+    font-size: 18px;
+    margin: 0 15px;
+}
+
+.menu a:hover {
+    text-decoration: underline;
+}

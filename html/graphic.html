@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>График сайта Ложка Вкуса</title>
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 40px;
+      position: relative;
+      color: #fff;
+      min-height: 100vh;
+      z-index: 1;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('../jpeg/tio.jpg') no-repeat center center/cover;
+      filter: blur(10px);
+      z-index: -1;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      font-size: 32px;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+      flex-wrap: wrap;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 20px;
+    }
+
+    #chart-container {
+      width: 400px;
+    }
+
+    table {
+      background: #fff;
+      color: #000;
+      border-collapse: collapse;
+      width: 400px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    table td, table th {
+      border: 1px solid #ccc;
+      padding: 8px;
+    }
+
+    table th {
+      background-color: #eee;
+    }
+
+    input[type="text"], input[type="number"], input[type="color"] {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <h1>График сайта Ложка Вкуса</h1>
+  <div class="container">
+    <div id="chart-container">
+      <canvas id="myPieChart"></canvas>
+    </div>
+    <table id="data-table">
+      <thead>
+        <tr>
+          <th>Название</th>
+          <th>Значение (%)</th>
+          <th>Цвет</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    const defaultData = [
+      { label: "Title 01", value: 15, color: "#FF6384" },
+      { label: "Title 02", value: 10, color: "#FF9F40" },
+      { label: "Title 03", value: 12, color: "#FFCD56" },
+      { label: "Title 04", value: 13, color: "#4BC0C0" },
+      { label: "Title 05", value: 20, color: "#36A2EB" },
+      { label: "Title 06", value: 30, color: "#9966FF" },
+    ];
+
+    let pieData = JSON.parse(localStorage.getItem("pieChartData")) || defaultData;
+
+    const ctx = document.getElementById("myPieChart").getContext("2d");
+    let myPieChart = new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: pieData.map(d => d.label),
+        datasets: [{
+          data: pieData.map(d => d.value),
+          backgroundColor: pieData.map(d => d.color),
+          hoverOffset: 20
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              color: 'white'
+            }
+          }
+        }
+      }
+    });
+
+    function renderTable() {
+      const tbody = document.querySelector("#data-table tbody");
+      tbody.innerHTML = "";
+      pieData.forEach((item, index) => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+          <td><input type="text" value="${item.label}" data-index="${index}" data-field="label"></td>
+          <td><input type="number" min="1" value="${item.value}" data-index="${index}" data-field="value"></td>
+          <td><input type="color" value="${item.color}" data-index="${index}" data-field="color"></td>
+        `;
+
+        tbody.appendChild(row);
+      });
+
+      document.querySelectorAll("input").forEach(input => {
+        input.addEventListener("input", e => {
+          const index = e.target.dataset.index;
+          const field = e.target.dataset.field;
+          pieData[index][field] = field === "value" ? parseInt(e.target.value) : e.target.value;
+          updateChart();
+        });
+      });
+    }
+
+    function updateChart() {
+      localStorage.setItem("pieChartData", JSON.stringify(pieData));
+      myPieChart.data.labels = pieData.map(d => d.label);
+      myPieChart.data.datasets[0].data = pieData.map(d => d.value);
+      myPieChart.data.datasets[0].backgroundColor = pieData.map(d => d.color);
+      myPieChart.update();
+    }
+
+    renderTable();
+  </script>
+</body>
+</html>
